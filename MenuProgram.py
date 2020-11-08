@@ -101,7 +101,8 @@ def web_6():
 def docker():
 	os.system("clear")
 	text("2")
-	print("\t\t\t\tSub-Menu Docker\n")
+	print("\n\t\t\t\tSub-Menu Docker\n")
+	print("\t\t\t\t```````````````\n")
 	text("7")
 	print("\tYou can either type option no. OR can ask in normal human readable English Language :)\n")
 	text("3")
@@ -123,7 +124,8 @@ def docker():
 def hadoop():
 	os.system("clear")
 	text("2")
-	print("\t\t\t\tSub-Menu Hadoop\n")
+	print("\n\t\t\t\tSub-Menu Hadoop\n")
+	print("\t\t\t\t````````````````\n")
 	text("7")
 	print("\tYou can either type option no. OR can ask in normal human readable English Language :)\n")
 	text("3")
@@ -144,15 +146,152 @@ def hadoop_1():
 def partition():
 	os.system("clear")
 	text("2")
-	print("\t\t\t\tSub-Menu Partitions\n")
+	print("\n\t\t\t\tSub-Menu Partitions\n")
+	print("\t\t\t\t```````````````````\n")
 	text("7")
 	print("\tYou can either type option no. OR can ask in normal human readable English Language :)\n")
 	text("3")
-	print("1. Create new partition")
-	print("2. Format the partition")
-	print("3. Mount")
-	print("4. Remove a partition")
+	print("1. View all the Block Devices/storage")
+	print("2. View details of a HardDisk (HD) & its Partitions in detail")
+	print("3. Create new partition")
+	print("4. Format the partition")
+	print("5. Mount & Unmount")
+	print("6. Remove/delete a partition\n")
 	text("7")
+
+def partition_1():
+	print("")
+	os.system("lsblk")
+
+def partition_2():
+	text("6")
+	print("\nYou can view HardDisk names from the 1st option, like sdb, sdc, etc")
+	text("7")
+	block = input("Enter the name of HardDisk: ")
+	if ("sda" in block):
+		block = "sda"
+	elif ("sdb" in block):
+		block = "sdb"
+	elif ("sdc" in block):
+		block = "sdb"
+	else:
+		print("Entered HardDisk name: {}".format(block))
+	os.system("\nfdisk -l /dev/{}".format(block))
+
+def partition_3():
+	text("6")
+	print("\nYou can view HardDisk names from the 1st option, they are named like sdb, sdc, etc")
+	text("7")
+	block = input("Enter the name of HardDisk: ").lower()
+	if ("sda" in block):
+		block = "sda"
+	elif ("sdb" in block):
+		block = "sdb"
+	elif ("sdc" in block):
+		block = "sdc"
+	else:
+		print("Entered HardDisk name: {}".format(block))
+	text("6")
+	print("\nRemember that you can only create either '4 Primary' OR '3 Primary + 1 Extended with multiple Logical Partitions'")
+	text("7")
+	ptype = input("\nEnter type of partition: Primary (p) & extended (e): ").lower()
+	if ("p" in ptype):
+		ptype = "p"
+	elif ("e" in ptype):
+		ptype = "e"
+	print("Size of partition can be provided in K,M,G,T,P,etc like 2G, 1000K, 1024M, etc")
+	psize = input("\nEnter size of partition: ").upper()
+	os.system("rm -f new_part.sh")
+	os.system("echo '#!/bin/bash' >> new_part.sh")
+	os.system("echo 'fdisk /dev/{} << FDISK_CMDS' >> new_part.sh".format(block))
+	os.system("echo 'n' >> new_part.sh")
+	os.system("echo '{}' >> new_part.sh".format(ptype))
+	os.system("echo '' >> new_part.sh")
+	os.system("echo '' >> new_part.sh")
+	os.system("echo '+{}' >> new_part.sh".format(psize))
+	os.system("echo 'w' >> new_part.sh")
+	os.system("echo 'FDISK_CMDS' >> new_part.sh")
+	os.system("chmod +x new_part.sh")
+	os.system("bash new_part.sh")
+	os.system("udevadm settle")
+	os.system("rm -f new_part.sh")
+	os.system("clear")
+	partition()
+	text("2")
+	print("\nYour new Partition is created!")
+	text("7")
+
+def partition_4():
+	text("6")
+	print("\nYou can view Partition name from the 1st or 2nd option, they are named like sdb1, sdb2, sdc4, etc")
+	text("7")
+	bpart = input("\nEnter the name of partition: ").lower()
+	print("")
+	os.system("mkfs.ext4 /dev/{}".format(bpart))
+	os.system("clear")
+	partition()
+	text("2")
+	print("\nYour Partition is Formatted with ext4 format!")
+	text("7")
+
+def partition_5():
+	text("6")
+	print("\nYou can view Partition names from the 1st option, they are named like sdb1, sdb2, sdc4, etc")
+	text("7")
+	bpart = input("\nEnter the name of partition: ").lower()
+	mount = input("Enter 1 for mount & 2 for unmount: ")
+	if mount == "1":
+		mfold = input("\nEnter complete path of folder/directory to mount: ")
+		os.system("mkdir {}".format(mfold))
+		os.system("mount /dev/{} {}".format(bpart, mfold))
+		os.system("clear")
+		partition()
+		text("2")
+		print("\nMounted Successfully!")
+		text("7")
+	elif mount == "2":
+		mfold = input("\nEnter complete path of folder/directory to mount: ")
+		os.system("umount {}".format(mfold))
+		os.system("clear")
+		partition()
+		text("2")
+		print("\nUnmounted Successfully!")
+		text("7")
+	else:
+		partition()
+		text("1")
+		print("Wrong Input!")
+		text("7")
+
+def partition_6():
+	text("6")
+	print("\nYou can view HardDisk (HD) & Partition name from the 1st or 2nd option, HD are named like sdb, sdc, etc")
+	print("Partitions are named like sdb1, sdb2, sdc4, etc")
+	text("7")
+	block = input("\nEnter HardDisk name: ").lower()
+	bpart = input("\nEnter the name of partition: ").lower()
+	print("")
+	z = 1
+	while z<10:
+		if (str(z) in bpart):
+			break
+		z += 1
+	os.system("rm -f rem_part.sh")
+	os.system("echo '#!/bin/bash' >> rem_part.sh")
+	os.system("echo 'fdisk /dev/{} << FDISK_CMDS' >> rem_part.sh".format(block))
+	os.system("echo 'd' >> rem_part.sh")
+	os.system("echo '{}' >> rem_part.sh".format(z))
+	os.system("echo 'w' >> rem_part.sh")
+	os.system("echo 'FDISK_CMDS' >> rem_part.sh")
+	os.system("chmod +x rem_part.sh")
+	os.system("bash rem_part.sh")
+	os.system("rm -f rem_part.sh")
+	os.system("clear")
+	partition()
+	text("2")
+	print("\nPartition deleted!")
+	text("7")
+
 
 # The main Code starts here:
 
@@ -179,10 +318,23 @@ while True:
 			web_6()
 		else:
 			print("\nI can't understand you! Seems like a wrong input")
-	elif ("docker" in x):
-		web()
+	elif (("docker" in x) or ("2" in x)):
 		y = input("Tell me what I can do for you: ").lower()
-
+	elif (("partition" in x) or ("4" in x)):
+		partition()
+		y = input("Tell me what I can do for you: ").lower()
+		if (("block" in y) or ("harddisk" in y) or ("storage" in y) or ("1" in y)):
+			partition_1()
+		elif (("detail" in y) and (("partition" in y) or ("harddisk" in y) or ("hd" in y)) or ("2" in y)):
+			partition_2()
+		elif (("partition" in y) and (("create" in y) or ("new" in y)) or ("3" in y)):
+			partition_3()
+		elif (("format" in y) or ("4" in y)):
+			partition_4()
+		elif (("mount" in y) or ("unmount" in y) or ("5" in y)):
+			partition_5()
+		elif (("partition" in y) and (("remove" in y) or ("delete" in y)) or ("6" in y)):
+			partition_6()
 	elif (("7" in x) or ("exit" in x) or ("close" in x)):
 		break
 	else:
@@ -194,5 +346,7 @@ while True:
 
 
 text("2")
-print("\n\t\tThankyou! Meet you next time :)")
+print("\n\t\tThankyou! Meet you next time :)\n")
+os.system("sleep 3")
+os.system("clear")
 text("7")
