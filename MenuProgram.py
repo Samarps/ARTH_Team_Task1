@@ -134,12 +134,71 @@ def hadoop():
 	print("3. Start NameNode Services")
 	print("4. Start DataNode Services")
 	print("5. Stop NameNode Services")
-	print("6. Stop DataNode Services\n")
+	print("6. Stop DataNode Services")
+	print("7. View report of the Hadoop Cluster")
 	text("7")
 
-def hadoop_1():
-	print("Configuing NameNode")
+def hdfs_file():
+	os.system("echo '<?xml version=\"1.0\"?>' >> hdfs-site.xml")
+	os.system("echo '<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>\n' >> hdfs-site.xml")
+	os.system("echo '<!-- Put site-specific property overrides in this file. -->\n' >> hdfs-site.xml")
+	os.system("echo '<configuration>\n<property>\n<name>dfs.name.dir</name>' >> hdfs-site.xml")
+	os.system("echo '<value>/nn</value>\n</property>\n</configuration>' >> hdfs-site.xml")
 
+def core_file(ip):
+	os.system("echo '<?xml version=\"1.0\"?>' >> core-site.xml")
+	os.system("echo '<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>\n' >> core-site.xml")
+	os.system("echo '<!-- Put site-specific property overrides in this file. -->\n' >> core-site.xml")
+	os.system("echo '<configuration>\n<property>\n<name>fs.default.name</name>' >> core-site.xml")
+	os.system("echo '<value>hdfs://{}:9001</value>\n</property>\n</configuration>' >> core-site.xml".format(ip))
+
+def hadoop_1_2(node):
+	if node == "namenode":
+		ip = "0.0.0.0"
+	elif node == "datanode":
+		ip = input("Enter the IP Address of the NameNode: ")
+	text("2")
+	print("\nWait it may take few minutes, we're downloading & installing some softwares\n")
+	text("7")
+	os.system("sleep 2")
+	os.system("pip3 install gdown")
+	os.system("gdown --id 1ilqY9Yj-doBCO4jktWD2rOuYpKHLIti5")     # downloading java & hadoop softwares
+	os.system("gdown --id 1LkQ5J_EnfC1P0jelIvkmslraHhwKnN_m")
+	os.system("rpm -ivh jdk-8u171-linux-x64.rpm")
+	os.system("echo 3 > /proc/sys/vm/drop_caches")                # installing the softwares
+	os.system("rpm -ivh hadoop-1.2.1-1.x86_64.rpm --force")
+	os.system("rm -f /etc/hadoop/hdfs-site.xml /etc/hadoop/core-site.xml")
+	hdfs_file()
+	core_file(ip)
+	if node == "namenode":
+		os.system("hadoop namenode -format")
+	os.system("echo 3 > /proc/sys/vm/drop_caches")
+	os.system("hadoop-daemon.sh start {}".format(node))
+	os.system("clear")
+	hadoop()
+	text("2")
+	print("\nYour {} is Configured Successfully & service also Started!".format(node))
+	text("7")
+
+def hadoop_3_4(node):
+	os.system("hadoop-daemon.sh start {}".format(node))
+	os.system("clear")
+	hadoop()
+	text("2")
+	print("\nYour {} Service Started!".format(node))
+	text("7")
+
+def hadoop_5_6(node):
+	os.system("hadoop-daemon.sh stop {}".format(node))
+	os.system("clear")
+	hadoop()
+	text("2")
+	print("\nYour {} Service Started!".format(node))
+	text("7")
+
+def hadoop_7():
+	print("")
+	os.system("hadoop dfsadmin -report")
 
 # Code for creating Partitions:
 
@@ -306,7 +365,7 @@ while True:
 
 		if (("configure" in y) and (("yum" in y) or ("repo" in y)) or ("1" in y)):
 			web_1()
-		elif (("configure" in y) and (("httpd" in y) or ("web" in y)) or ("2" in y)):
+		elif (("configure" in y) and (("httpd" in y) or ("web" in y)) or ("2" in y)):             # Apache Webserver
 			web_2()
 		elif (("start" in y) and (("httpd" in y) or ("web" in y) or ("service" in y)) or ("3" in y)):
 			web_3()
@@ -320,6 +379,23 @@ while True:
 			print("\nI can't understand you! Seems like a wrong input")
 	elif (("docker" in x) or ("2" in x)):
 		y = input("Tell me what I can do for you: ").lower()
+	elif (("hadoop" in x) or ("3" in x)):
+		hadoop()
+		y = input("Tell me what I can do for you: ").lower()
+		if (("configure" in y) and (("namenode" in y) or ("nn" in y)) or ("1" in y)):
+			hadoop_1_2("namenode")
+		elif (("configure" in y) and (("datanode" in y) or ("dn" in y)) or ("2" in y)):
+			hadoop_1_2("datanode")
+		elif (("start" in y) and (("namenode" in y) or ("nn" in y)) or ("3" in y)):                # Hadoop Configuration
+			hadoop_3_4("namenode")
+		elif (("start" in y) and (("datanode" in y) or ("dn" in y)) or ("4" in y)):
+			hadoop_3_4("datanode")
+		elif (("stop" in y) and (("namenode" in y) or ("nn" in y)) or ("5" in y)):
+			hadoop_5_6("namenode")
+		elif (("stop" in y) and (("datanode" in y) or ("dn" in y)) or ("6" in y)):
+			hadoop_5_6("datanode")
+		elif (("report" in y) or ("view" in y) or ("7" in y)):
+			hadoop_7()
 	elif (("partition" in x) or ("4" in x)):
 		partition()
 		y = input("Tell me what I can do for you: ").lower()
@@ -327,7 +403,7 @@ while True:
 			partition_1()
 		elif (("detail" in y) and (("partition" in y) or ("harddisk" in y) or ("hd" in y)) or ("2" in y)):
 			partition_2()
-		elif (("partition" in y) and (("create" in y) or ("new" in y)) or ("3" in y)):
+		elif (("partition" in y) and (("create" in y) or ("new" in y)) or ("3" in y)):              # Code for Partition
 			partition_3()
 		elif (("format" in y) or ("4" in y)):
 			partition_4()
@@ -335,10 +411,10 @@ while True:
 			partition_5()
 		elif (("partition" in y) and (("remove" in y) or ("delete" in y)) or ("6" in y)):
 			partition_6()
-	elif (("7" in x) or ("exit" in x) or ("close" in x)):
+	elif (("7" in x) or ("exit" in x) or ("close" in x)):                                           # Exit/Close Program
 		break
 	else:
-		print("\nI can't understand you! Please try again")
+		print("\nI can't understand you! Please try again")                                         # Wrong Input!
 
 	text("6")
 	input("\nPress ENTER to Continue...")
