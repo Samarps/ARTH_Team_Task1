@@ -144,6 +144,7 @@ def hdfs_file():
 	os.system("echo '<!-- Put site-specific property overrides in this file. -->\n' >> hdfs-site.xml")
 	os.system("echo '<configuration>\n<property>\n<name>dfs.name.dir</name>' >> hdfs-site.xml")
 	os.system("echo '<value>/nn</value>\n</property>\n</configuration>' >> hdfs-site.xml")
+	os.system("mv -f hdfs_file.xml /etc/hadoop/")
 
 def core_file(ip):
 	os.system("echo '<?xml version=\"1.0\"?>' >> core-site.xml")
@@ -151,6 +152,7 @@ def core_file(ip):
 	os.system("echo '<!-- Put site-specific property overrides in this file. -->\n' >> core-site.xml")
 	os.system("echo '<configuration>\n<property>\n<name>fs.default.name</name>' >> core-site.xml")
 	os.system("echo '<value>hdfs://{}:9001</value>\n</property>\n</configuration>' >> core-site.xml".format(ip))
+	os.system("mv -f core_file.xml /etc/hadoop/")
 
 def hadoop_1_2(node):
 	if node == "namenode":
@@ -167,7 +169,6 @@ def hadoop_1_2(node):
 	os.system("rpm -ivh jdk-8u171-linux-x64.rpm")
 	os.system("echo 3 > /proc/sys/vm/drop_caches")                # installing the softwares
 	os.system("rpm -ivh hadoop-1.2.1-1.x86_64.rpm --force")
-	os.system("rm -f /etc/hadoop/hdfs-site.xml /etc/hadoop/core-site.xml")
 	hdfs_file()
 	core_file(ip)
 	if node == "namenode":
