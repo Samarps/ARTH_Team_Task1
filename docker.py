@@ -88,8 +88,8 @@ def docker_7(ssh):
 
 def docker_8(ssh):
 	sp.getstatusoutput(ssh + "docker ps -a")
-	dockerid = input("Enter id upto 5 place from left")
-	os.system(ssh + "docker rm {did}".format(did=dockerid))
+	dockerid = input("Enter name/ID of docker OS you want to remove: ")
+	os.system(ssh + "docker rm {did}".format(did = dockerid))
 	docker(ssh)
 	text("2")
 	print("\nDocker OS removed Successfully!")
@@ -99,7 +99,7 @@ def docker_9(ssh):
 	ask = input("If you want to add/pull image enter 'a', otherwise to remove enter 'r': ").lower()
 	if ask == 'a':
 		image = input("Enter image name to add to local: ")
-		add = sp.getstatusoutput(ssh + "docker pull {image}".format(image=image))
+		add = sp.getstatusoutput(ssh + "docker pull {image}".format(image = image))
 		print(add[1])
 		docker(ssh)
 		text("2")
