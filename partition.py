@@ -103,8 +103,8 @@ def partition_5(ssh):
 	print("\nYou can view Partition names from the 1st option, they are named like sdb1, sdb2, sdc4, etc")
 	text("7")
 	bpart = input("\nEnter the name of partition: ").lower()
-	mount = input("Enter 1 for mount & 2 for unmount: ")
-	if mount == "1":
+	mount = input("You want to mount (m) OR unmount (u): ")
+	if (("m" in mount) or ("mount" in mount)):
 		mfold = input("\nEnter complete path of folder/directory to mount: ")
 		os.system(ssh + "mkdir {}".format(mfold))
 		os.system(ssh + "mount /dev/{} {}".format(bpart, mfold))
@@ -112,7 +112,7 @@ def partition_5(ssh):
 		text("2")
 		print("\nMounted Successfully!")
 		text("7")
-	elif mount == "2":
+	elif (("u" in mount) or ("unmount" in mount)):
 		mfold = input("\nEnter complete path of folder/directory to mount: ")
 		os.system(ssh + "umount {}".format(mfold))
 		partition(ssh)
