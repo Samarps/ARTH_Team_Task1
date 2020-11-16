@@ -62,7 +62,6 @@ def hadoop_1_2(ssh, node):
 		os.system(ssh + "hadoop namenode -format")
 	os.system(ssh + "echo 3 > /proc/sys/vm/drop_caches")
 	os.system(ssh + "hadoop-daemon.sh start {}".format(node))
-	os.system("" + "clear")
 	hadoop(ssh)
 	text("2")
 	print("\nYour {} is Configured Successfully & service also Started!".format(node))
@@ -70,7 +69,6 @@ def hadoop_1_2(ssh, node):
 
 def hadoop_3_4(ssh, node):
 	os.system(ssh + "hadoop-daemon.sh start {}".format(node))
-	os.system("" + "clear")
 	hadoop(ssh)
 	text("2")
 	print("\nYour {} Service Started!".format(node))
@@ -78,7 +76,6 @@ def hadoop_3_4(ssh, node):
 
 def hadoop_5_6(ssh, node):
 	os.system(ssh + "hadoop-daemon.sh stop {}".format(node))
-	os.system("" + "clear")
 	hadoop(ssh)
 	text("2")
 	print("\nYour {} Service Started!".format(node))

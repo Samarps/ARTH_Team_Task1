@@ -32,7 +32,6 @@ def docker_1(ssh):
 	os.system(ssh + "sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo")
 	os.system(ssh + "sudo dnf install --nobest docker-ce -y")
 	os.system(ssh + "systemctl start docker")
-	os.system("" + "clear")
 	docker(ssh)
 	text("2")
 	print("Docker stable version Installed & Service is also Started")
@@ -40,7 +39,6 @@ def docker_1(ssh):
 
 def docker_2(ssh):
 	os.system(ssh + "systemctl start docker")
-	os.system("" + "clear")
 	docker(ssh)
 	text("2")
 	print("docker Services started!")
@@ -48,7 +46,6 @@ def docker_2(ssh):
 
 def docker_3(ssh):
 	os.system(ssh + "systemctl stop docker")
-	os.system("" + "clear")
 	docker(ssh)
 	text("2")
 	print("docker Services stopped!")
@@ -56,7 +53,6 @@ def docker_3(ssh):
 
 def docker_4(ssh):
 	os.system(ssh + "systemctl enable docker")
-	os.system("" + "clear")
 	docker(ssh)
 	text("2")
 	print("docker Services enabled permanently!")
@@ -64,7 +60,6 @@ def docker_4(ssh):
 
 def docker_5(ssh):
 	os.system(ssh + "systemctl disable docker")
-	os.system("" + "clear")
 	docker(ssh)
 	text("2")
 	print("docker Services disabled permanently!")
@@ -74,7 +69,6 @@ def docker_6(ssh):
 	name = input("Enter your docker name: ")
 	osname = input("Enter Operating System (OS) name")
 	out = sp.getstatusoutput(ssh + "docker run -dit --name {name} {osname}".format(name=name,osname=osname))
-	os.system("" + "clear")
 	docker(ssh)
 	text("2")
 	print("Docker launched with ID")
@@ -86,7 +80,6 @@ def docker_7(ssh):
 	srcfile = input("Enter Source code location in your host OS: ")
 	port = input("Enter proxy port inside Docker: ")
 	t = sp.getstatusoutput(ssh + "docker run -dit --name {name} -p {port}:80 -v {src}:/usr/local/apache2/htdocs/   httpd:2.4".format(name=name,src=srcfile,port=port))
-	os.system("" + "clear")
 	docker(ssh)
 	text("2")
 	print("\nDocker successfully launched with ID")
@@ -97,7 +90,6 @@ def docker_8(ssh):
 	sp.getstatusoutput(ssh + "docker ps -a")
 	dockerid = input("Enter id upto 5 place from left")
 	os.system(ssh + "docker rm {did}".format(did=dockerid))
-	os.system("" + "clear")
 	docker(ssh)
 	text("2")
 	print("\nDocker OS removed Successfully!")
@@ -109,7 +101,6 @@ def docker_9(ssh):
 		image = input("Enter image name to add to local: ")
 		add = sp.getstatusoutput(ssh + "docker pull {image}".format(image=image))
 		print(add[1])
-		os.system("" + "clear")
 		docker(ssh)
 		text("2")
 		print("\nDocker image added/pulled Successfully!")
@@ -118,7 +109,6 @@ def docker_9(ssh):
 		os.system(ssh + "docker images")
 		image = input("Enter image name to remove : ")
 		os.system(ssh + "docker rmi {image}".format(image=image))
-		os.system("" + "clear")
 		docker(ssh)
 		text("2")
 		print("\nDocker image removed Successfully!")

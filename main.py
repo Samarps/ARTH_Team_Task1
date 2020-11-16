@@ -11,6 +11,8 @@ import partition
 from partition import *
 import lvm
 from lvm import *
+import aws
+from aws import *
 
 ssh = ""
 
@@ -20,6 +22,8 @@ def text(c):
 
 def intro():
 	os.system("" + "clear")
+	print("\n\t\t\t\t\t ARTH2020.9.12")
+	print("\t\t\t\t\t______________\n")
 	text("2")
 	print("\n\t\t\t\t\tWelcome User!\n")
 	print("\t\t\t\t\t`````````````\n")
@@ -153,6 +157,29 @@ while True:
 			partition_5(ssh)
 		elif (("partition" in y) and (("remove" in y) or ("delete" in y)) or ("6" in y)):
 			partition_6(ssh)
+		else:
+			print("\nI can't understand you! Seems like a wrong input")
+	elif (("aws" in x) or ("5" in x)):
+		aws(ssh)
+		y = input("Tell me what I can do for you: ").lower()
+		if (("install" in y) or ("config" in y) or ("1" in y)):
+			aws_1(ssh)
+		elif (("key" in y) or ("security" in y) or ("sg" in y) or ("2" in y)):
+			aws_2(ssh)
+		elif ((("launch" in y) or ("new" in y)) and (("instance" in y) or ("ec2" in y)) or ("3" in y)):
+			aws_3(ssh)
+		elif (("list" in y) and ("instance" in y) or ("4" in y)):
+			aws_4(ssh)
+		elif (("instance" in y) and (("stop" in y) or ("start" in y)) or ("5" in y)):                 # Code for AWS
+			aws_5(ssh)
+		elif (("instance" in y) and ("terminate" in y) or ("6" in y)):
+			aws_6(ssh)
+		elif (("create" in y) and (("volume" in y) or ("ebs" in y)) or ("7" in y)):
+			aws_7(ssh)
+		elif (("attach" in y) and (("volume" in y) or ("ebs" in y)) or ("8" in y)):
+			aws_8(ssh)
+		elif ((("delete" in y) or ("remove" in y)) and (("volume" in y) or ("ebs" in y)) or ("9" in y)):
+			aws_9(ssh)
 		else:
 			print("\nI can't understand you! Seems like a wrong input")
 	elif (("lvm" in x) or ("logical" in x) or ("6" in x)):

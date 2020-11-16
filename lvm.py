@@ -37,7 +37,6 @@ def lvm_2(ssh):
 	text("7")
 	block = input("Enter HardDisk name: ").lower()
 	os.system(ssh + "pvcreate /dev/{}".format(block))
-	os.system("" + "clear")
 	lvm(ssh)
 	text("2")
 	print("\nYour Physical Volume (PV) is created Successfully!")
@@ -48,7 +47,6 @@ def lvm_3(ssh):
 	print("\nPV and HardDisk (HD) names are same, you can find HD name from the option 1, they are named sdb, sdc, sde, etc\n")
 	text("7")
 	block = input("Enter PV name: ").lower()
-	os.system("" + "clear")
 	lvm(ssh)
 	text("2")
 	os.system(ssh + "pvdisplay /dev/{}".format(block))
@@ -71,7 +69,6 @@ def lvm_4(ssh):
 	for i in a:
 		pvs = pvs + " /dev/" + i
 	os.system(ssh + "vgcreate {} {}".format(vgname, pvs))
-	os.system("" + "clear")
 	lvm(ssh)
 	text("2")
 	print("\nYour Volume Group is created!")
@@ -79,7 +76,6 @@ def lvm_4(ssh):
 
 def lvm_5(ssh):
 	vgname = input("\nEnter name of your Volume Group (VG): ")
-	os.system("" + "clear")
 	lvm(ssh)
 	text("2")
 	os.system(ssh + "vgdisplay {}".format(vgname))
@@ -94,7 +90,6 @@ def lvm_6(ssh):
 	lvsize = input("Enter LV size: ").upper()
 	os.system(ssh + "lvcreate --size {} --name {} {}".format(lvsize, lvname, vgname))
 	os.system(ssh + "mkfs.ext4 /dev/{}/{}".format(vgname, lvname))
-	os.system("" + "clear")
 	lvm(ssh)
 	text("2")
 	print("\nYour Logical Volume is Created & Formatted!")
@@ -103,7 +98,6 @@ def lvm_6(ssh):
 def lvm_7(ssh):
 	vgname = input("\nEnter name of your Volume Group (VG): ")
 	lvname = input("Enter name of you Logical Volume (LV): ")
-	os.system("" + "clear")
 	lvm(ssh)
 	text("2")
 	os.system(ssh + "lvdisplay {}/{}".format(vgname, lvname))
@@ -114,7 +108,6 @@ def lvm_8(ssh):
 	lvname = input("Enter name of you Logical Volume (LV): ")
 	addsize = input("Enter extend size for LV (like 2G, 4G, etc): ").upper()
 	os.system(ssh + "lvextend --size {} /dev/{}/{}".format(addsize, vgname, lvname))
-	os.system("" + "clear")
 	lvm(ssh)
 	text("2")
 	print("Your LV size extended by {} Successfully!".format(addsize))
@@ -129,7 +122,6 @@ def lvm_9(ssh):
 	vgname = input("\nEnter name of VG: ")
 	pvname = input("Enter PV name (to be added into VG): ").lower()
 	os.system(ssh + "vgextend {} /dev/{}".format(vgname, pvname))
-	os.system("" + "clear")
 	lvm(ssh)
 	text("2")
 	print("Your VG Extended Successfully!")
