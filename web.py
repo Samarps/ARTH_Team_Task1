@@ -27,7 +27,7 @@ def web(ssh):
 def web_1(ssh):
 	os.system(ssh + "rm -f /etc/yum.repos.d/myyum.repo")
 	os.system(ssh + "echo '[dvd1]' >> /etc/yum.repos.d/myyum.repo")
-	os.system(ssh + "echo 'baseurl=file:///run/media/root/RHEL-8-0-0-BaseOS-x86_64/AppStream'>> /etc/yum.repos.d/myyum.repo")
+	os.system(ssh + "echo 'baseurl=file:///run/media/root/RHEL-8-0-0-BaseOS-x86_64/AppStream' >> /etc/yum.repos.d/myyum.repo")
 	os.system(ssh + "echo 'gpgcheck=0' >> /etc/yum.repos.d/myyum.repo")
 	os.system(ssh + "echo '' >> /etc/yum.repos.d/myyum.repo")
 	os.system(ssh + "echo '[dvd2]' >> /etc/yum.repos.d/myyum.repo")
