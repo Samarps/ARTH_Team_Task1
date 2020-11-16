@@ -11,7 +11,7 @@ def text(c):
 def lvm(ssh):
 	os.system("" + "clear")
 	text("2")
-	print("\t\t\t\tSub-Menu LVM (Logical Volume Management)\n")
+	print("\n\t\t\t\tSub-Menu LVM (Logical Volume Management)\n")
 	print("\t\t\t\t````````````````````````````````````````\n")
 	text("7")
 	print("\tYou can either type option no. OR can ask in normal human readable English Language :)\n")
