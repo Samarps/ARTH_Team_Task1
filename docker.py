@@ -28,9 +28,11 @@ def docker(ssh):
 	text("7")
 
 def docker_1(ssh):
-	os.system(ssh + "rm -f /etc/yum.repos.d/docker-ce.repo")
-	os.system(ssh + "sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo")
-	os.system(ssh + "sudo dnf install --nobest docker-ce -y")
+	os.system(ssh + "rm -f /etc/yum.repos.d/docker.repo")
+	os.system(ssh + "echo '[docker]' >> /etc/yum.repos.d/docker.repo")
+	os.system(ssh + "echo 'baseurl=https://download.docker.com/linux/centos/7/x86_64/stable/' >> /etc/yum.repos.d/docker.repo")
+	os.system(ssh + "echo 'gpgcheck=0' >> /etc/yum.repos.d/docker.repo")
+	os.system(ssh + "yum install docker-ce --nobest -y")
 	os.system(ssh + "systemctl start docker")
 	docker(ssh)
 	text("2")
@@ -67,7 +69,7 @@ def docker_5(ssh):
 
 def docker_6(ssh):
 	name = input("Enter your docker name: ")
-	osname = input("Enter Operating System (OS) name")
+	osname = input("Enter Operating System (OS) name: ")
 	out = sp.getstatusoutput(ssh + "docker run -dit --name {name} {osname}".format(name=name,osname=osname))
 	docker(ssh)
 	text("2")
@@ -89,7 +91,7 @@ def docker_7(ssh):
 def docker_8(ssh):
 	sp.getstatusoutput(ssh + "docker ps -a")
 	dockerid = input("Enter name/ID of docker OS you want to remove: ")
-	os.system(ssh + "docker rm {did}".format(did = dockerid))
+	os.system(ssh + "docker rm -f {did}".format(did = dockerid))
 	docker(ssh)
 	text("2")
 	print("\nDocker OS removed Successfully!")
