@@ -96,7 +96,7 @@ while True:
 			web_4(ssh)
 		elif (("enable" in y) and (("httpd" in y) or ("web" in y) or ("service" in y)) or ("5" in y)):
 			web_5(ssh)
-		elif (("disable" in y) and (("httpd" in y) or ("web" in y) or ("service" in y)) or ("3" in y)):
+		elif (("disable" in y) and (("httpd" in y) or ("web" in y) or ("service" in y)) or ("6" in y)):
 			web_6(ssh)
 		else:
 			print("\nI can't understand you! Seems like a wrong input")
