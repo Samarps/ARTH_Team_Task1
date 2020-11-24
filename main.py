@@ -159,13 +159,13 @@ while True:
 		elif (("detail" in y) and (("partition" in y) or ("harddisk" in y) or ("hd" in y)) or ("2" in y)):
 			partition_2(ssh)
 		elif (("partition" in y) and (("create" in y) or ("new" in y)) or ("3" in y)):              # Code for Partition
-			partition_3(ssh)
+			partition_3(ssh, r_ip)
 		elif (("format" in y) or ("4" in y)):
 			partition_4(ssh)
 		elif (("mount" in y) or ("unmount" in y) or ("5" in y)):
 			partition_5(ssh)
 		elif (("partition" in y) and (("remove" in y) or ("delete" in y)) or ("6" in y)):
-			partition_6(ssh)
+			partition_6(ssh, r_ip)
 		else:
 			print("\nI can't understand you! Seems like a wrong input")
 	elif (("aws" in x) or ("5" in x)):

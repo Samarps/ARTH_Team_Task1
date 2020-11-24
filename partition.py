@@ -147,8 +147,8 @@ def partition_6(ssh, r_ip):
 	os.system("echo 'w' >> rem_part.sh")
 	os.system("echo 'FDISK_CMDS' >> rem_part.sh")
 	os.system("chmod +x rem_part.sh")
+	os.system(ssh + "scp rem_part.sh {}:/root/".format(r_ip))
 	os.system("bash rem_part.sh")
-
 	os.system("rm -f rem_part.sh")
 	partition(ssh)
 	text("2")
