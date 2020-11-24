@@ -27,11 +27,13 @@ def docker(ssh):
 	print("9. Add/remove any Docker Image\n")
 	text("7")
 
-def docker_1(ssh):
-	os.system(ssh + "rm -f /etc/yum.repos.d/docker.repo")
-	os.system(ssh + "echo '[docker]' >> /etc/yum.repos.d/docker.repo")
-	os.system(ssh + "echo 'baseurl=https://download.docker.com/linux/centos/7/x86_64/stable/' >> /etc/yum.repos.d/docker.repo")
-	os.system(ssh + "echo 'gpgcheck=0' >> /etc/yum.repos.d/docker.repo")
+def docker_1(ssh, r_ip):
+	os.system("rm -f /etc/yum.repos.d/docker.repo")
+	os.system("echo '[docker1]' >> /etc/yum.repos.d/docker.repo")
+	os.system("echo 'baseurl=https://download.docker.com/linux/centos/7/x86_64/stable/' >> /etc/yum.repos.d/docker.repo")
+	os.system("echo 'gpgcheck=0' >> /etc/yum.repos.d/docker.repo")
+	if ssh != "":
+		os.system(ssh + "scp /etc/yum.repos.d/docker.repo {}:/etc/yum.repos.d/".format(r_ip))
 	os.system(ssh + "yum install docker-ce --nobest -y")
 	os.system(ssh + "systemctl start docker")
 	docker(ssh)

@@ -23,7 +23,7 @@ def text(c):
 def intro():
 	os.system("" + "clear")
 	print("\n\t\t\t\t\t ARTH2020.9.12")
-	print("\t\t\t\t\t______________\n")
+	print("\t\t\t\t\t_______________\n")
 	text("2")
 	print("\n\t\t\t\t\tWelcome User!\n")
 	print("\t\t\t\t\t`````````````\n")
@@ -34,12 +34,20 @@ def intro():
 	print("\n\t\t\t\bENTER WHICH SYSTEM YOU NEED TO CONFIGURE (local/remote)\n")
 	text("7")
 
+def remote_ip(z_ip):
+	if z_ip != "":
+		r_ip = z_ip
+	else:
+		r_ip = ""
+	return r_ip
+
 def config_os():
 	choice = input("\t\t\t\t\t: ")
 	if choice == "remote":
 		remote_ip = input("\n\n\n\tEnter IP Address of the remote system: ")
+		remote_ip(remote_ip)
 		rpass = getpass.getpass("\n\tEnter password: ")
-		ssh = "sshpass -p {} ssh root@{} ".format(rpass, remote_ip)
+		ssh = "sshpass -p {} ssh root@{} ".format(rpass, z_ip)
 		text("2")
 		print("\n\n\n\n\t\t\t\t\b\b\bProceeding with Remote System Configuration!")
 		text("7")
@@ -56,7 +64,8 @@ def config_os():
 
 intro()
 ssh = config_os()
-
+z_ip = ""
+r_ip = remote_ip(z_ip)
 
 
 def instructions(ssh):
@@ -87,7 +96,7 @@ while True:
 		y = input("Tell me what I can do for you: ").lower()
 
 		if (("configure" in y) and (("yum" in y) or ("repo" in y)) or ("1" in y)):
-			web_1(ssh)
+			web_1(ssh, r_ip)
 		elif (("configure" in y) and (("httpd" in y) or ("web" in y)) or ("2" in y)):             # Apache Webserver
 			web_2(ssh)
 		elif (("start" in y) and (("httpd" in y) or ("web" in y) or ("service" in y)) or ("3" in y)):
@@ -104,7 +113,7 @@ while True:
 		docker(ssh)
 		y = input("Tell me what I can do for you: ").lower()
 		if (("configure" in y) and ("docker" in y) or ("1" in y)):
-			docker_1(ssh)
+			docker_1(ssh, r_ip)
 		elif (("start" in y) and (("docker" in y) or ("service" in y)) or ("2" in y)):
 			docker_2(ssh)
 		elif (("stop" in y) and (("docker" in y) or ("service" in y)) or ("3" in y)):
@@ -127,9 +136,9 @@ while True:
 		hadoop(ssh)
 		y = input("Tell me what I can do for you: ").lower()
 		if (("configure" in y) and (("namenode" in y) or ("nn" in y)) or ("1" in y)):
-			hadoop_1_2(ssh, "namenode")
+			hadoop_1_2(ssh, "namenode", r_ip)
 		elif (("configure" in y) and (("datanode" in y) or ("dn" in y)) or ("2" in y)):
-			hadoop_1_2(ssh, "datanode")
+			hadoop_1_2(ssh, "datanode", r_ip)
 		elif (("start" in y) and (("namenode" in y) or ("nn" in y)) or ("3" in y)):                # Hadoop Configuration
 			hadoop_3_4(ssh, "namenode")
 		elif (("start" in y) and (("datanode" in y) or ("dn" in y)) or ("4" in y)):

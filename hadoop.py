@@ -26,22 +26,26 @@ def hadoop(ssh):
 	text("7")
 
 def hdfs_file(ssh):
-	os.system(ssh + "echo '<?xml version=\"1.0\"?>' >> hdfs-site.xml")
-	os.system(ssh + "echo '<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>\n' >> hdfs-site.xml")
-	os.system(ssh + "echo '<!-- Put site-specific property overrides in this file. -->\n' >> hdfs-site.xml")
-	os.system(ssh + "echo '<configuration>\n<property>\n<name>dfs.name.dir</name>' >> hdfs-site.xml")
-	os.system(ssh + "echo '<value>/nn</value>\n</property>\n</configuration>' >> hdfs-site.xml")
-	os.system(ssh + "mv -f hdfs_file.xml /etc/hadoop/")
+	os.system("echo '<?xml version=\"1.0\"?>' >> hdfs-site.xml")
+	os.system("echo '<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>\n' >> hdfs-site.xml")
+	os.system("echo '<!-- Put site-specific property overrides in this file. -->\n' >> hdfs-site.xml")
+	os.system("echo '<configuration>\n<property>\n<name>dfs.name.dir</name>' >> hdfs-site.xml")
+	os.system("echo '<value>/nn</value>\n</property>\n</configuration>' >> hdfs-site.xml")
+	if ssh != "":
+		os.system("scp hdfs-site.xml {}:/root/".format(ip))
+	os.system(ssh + "mv -f /root/hdfs_file.xml /etc/hadoop/")
 
 def core_file(ssh, ip):
-	os.system(ssh + "echo '<?xml version=\"1.0\"?>' >> core-site.xml")
-	os.system(ssh + "echo '<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>\n' >> core-site.xml")
-	os.system(ssh + "echo '<!-- Put site-specific property overrides in this file. -->\n' >> core-site.xml")
-	os.system(ssh + "echo '<configuration>\n<property>\n<name>fs.default.name</name>' >> core-site.xml")
-	os.system(ssh + "echo '<value>hdfs://{}:9001</value>\n</property>\n</configuration>' >> core-site.xml".format(ip))
-	os.system(ssh + "mv -f core_file.xml /etc/hadoop/")
+	os.system("echo '<?xml version=\"1.0\"?>' >> core-site.xml")
+	os.system("echo '<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>\n' >> core-site.xml")
+	os.system("echo '<!-- Put site-specific property overrides in this file. -->\n' >> core-site.xml")
+	os.system("echo '<configuration>\n<property>\n<name>fs.default.name</name>' >> core-site.xml")
+	os.system("echo '<value>hdfs://{}:9001</value>\n</property>\n</configuration>' >> core-site.xml".format(ip))
+	if ssh != "":
+		os.system("scp core-site.xml {}:/root/".format(ip))
+	os.system(ssh + "mv -f /root/core_file.xml /etc/hadoop/")
 
-def hadoop_1_2(ssh, node):
+def hadoop_1_2(ssh, node, r_ip):
 	if node == "namenode":
 		ip = "0.0.0.0"
 	elif node == "datanode":
@@ -54,14 +58,20 @@ def hadoop_1_2(ssh, node):
 	os.system(ssh + "gdown --id 1ilqY9Yj-doBCO4jktWD2rOuYpKHLIti5")     # downloading java & hadoop softwares
 	os.system(ssh + "gdown --id 1LkQ5J_EnfC1P0jelIvkmslraHhwKnN_m")
 	os.system(ssh + "rpm -ivh jdk-8u171-linux-x64.rpm")
-	os.system(ssh + "echo 3 > /proc/sys/vm/drop_caches")                # installing the softwares
-	os.system(ssh + "rpm -ivh hadoop-1.2.1-1.x86_64.rpm --force")
-	hdfs_file(ssh)
-	core_file(ssh, ip)
+	os.system("rm -rf my.sh")
+	os.system("echo '#!/bin/bash' > my.sh")
+	os.system("echo 'echo 3 > /proc/sys/vm/drop_caches' >> my.sh")
+	os.system("chmod +x my.sh")
+	os.system(ssh + "scp my.sh 192.168.99.101:/root/")
+	os.system(ssh + "bash my.sh")
+	os.system(ssh + "rpm -ivh hadoop-1.2.1-1.x86_64.rpm --force")         # installing the softwares
+	hdfs_file(ssh, r_ip)
+	core_file(ssh, ip, r_ip)
 	if node == "namenode":
 		os.system(ssh + "hadoop namenode -format")
-	os.system(ssh + "echo 3 > /proc/sys/vm/drop_caches")
+	os.system(ssh + "bash my.txt")
 	os.system(ssh + "hadoop-daemon.sh start {}".format(node))
+	os.system(ssh + "rm -rf my.txt")
 	hadoop(ssh)
 	text("2")
 	print("\nYour {} is Configured Successfully & service also Started!".format(node))

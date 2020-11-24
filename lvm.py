@@ -36,10 +36,14 @@ def lvm_2(ssh):
 	print("\nPV is created from a HardDisk, you can find HD name from the option 1, they are named sdb, sdc, sde, etc\n")
 	text("7")
 	block = input("Enter HardDisk name: ").lower()
-	os.system(ssh + "pvcreate /dev/{}".format(block))
+	z = "y"
+	while z == "y":
+		block = input("\nEnter PV name: ").lower()
+		os.system(ssh + "pvcreate /dev/{}".format(block))
+		z = input("Enter 'y' to add more PV, otherwise press ENTER: ").lower()
 	lvm(ssh)
 	text("2")
-	print("\nYour Physical Volume (PV) is created Successfully!")
+	print("\nYour Physical Volume (PV) were created Successfully!")
 	text("7")
 
 def lvm_3(ssh):

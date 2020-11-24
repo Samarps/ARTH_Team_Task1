@@ -24,15 +24,17 @@ def web(ssh):
 	print("6. Permanently disable httpd Services\n")
 	text("7")
 
-def web_1(ssh):
-	os.system(ssh + "rm -f /etc/yum.repos.d/myyum.repo")
-	os.system(ssh + "echo '[dvd1]' >> /etc/yum.repos.d/myyum.repo")
-	os.system(ssh + "echo 'baseurl=file:///run/media/root/RHEL-8-0-0-BaseOS-x86_64/AppStream' >> /etc/yum.repos.d/myyum.repo")
-	os.system(ssh + "echo 'gpgcheck=0' >> /etc/yum.repos.d/myyum.repo")
-	os.system(ssh + "echo '' >> /etc/yum.repos.d/myyum.repo")
-	os.system(ssh + "echo '[dvd2]' >> /etc/yum.repos.d/myyum.repo")
-	os.system(ssh + "echo 'baseurl=file:///run/media/root/RHEL-8-0-0-BaseOS-x86_64/BaseOS' >> /etc/yum.repos.d/myyum.repo")
-	os.system(ssh + "echo 'gpgcheck=0' >> /etc/yum.repos.d/myyum.repo")
+def web_1(ssh, r_ip):
+	os.system("rm -f /etc/yum.repos.d/myyum.repo")
+	os.system("echo '[dvd1]' >> /etc/yum.repos.d/myyum.repo")
+	os.system("echo 'baseurl=file:///run/media/root/RHEL-8-0-0-BaseOS-x86_64/AppStream' >> /etc/yum.repos.d/myyum.repo")
+	os.system("echo 'gpgcheck=0' >> /etc/yum.repos.d/myyum.repo")
+	os.system("echo '' >> /etc/yum.repos.d/myyum.repo")
+	os.system("echo '[dvd2]' >> /etc/yum.repos.d/myyum.repo")
+	os.system("echo 'baseurl=file:///run/media/root/RHEL-8-0-0-BaseOS-x86_64/BaseOS' >> /etc/yum.repos.d/myyum.repo")
+	os.system("echo 'gpgcheck=0' >> /etc/yum.repos.d/myyum.repo")
+	if ssh != "":
+		os.system(ssh + "scp /etc/yum.repos.d/myyum.repo {}:/etc/yum.repos.d/".format(r_ip))
 	web(ssh)
 	text("2")
 	print("yum repo is Configured, now you can install or Configure httpd!")
